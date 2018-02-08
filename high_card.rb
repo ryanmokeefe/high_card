@@ -1,6 +1,9 @@
 # Use these two arrays to generate a deck of cards.
 ranks = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K" ]
-suits = [ "hearts", "spades", "clubs", "diamonds" ]
+# ranks = ["A", "J"]
+
+suits = [ "hearts", "spades", "clubs", "diamonds"]
+ 
 
 players = []
 
@@ -38,34 +41,53 @@ end
 puts players
 
 # find A, K, Q, J, 10: (add IF st. for a tie)
-winner = []
+$winner = []
 
-while winner.length < 1 do
-    high_score = players.detect { |player| player["hand"] == "A" }
-    winner.push(high_score)
-    break if winner.length > 0
-    high_score = players.detect { |player| player["hand"] == "K" }    
-    winner.push(high_score)
-    break if winner.length > 0
-    high_score = players.detect { |player| player["hand"] == "Q" }
-    winner.push(high_score)
-    break if winner.length > 0
-    high_score = players.detect { |player| player["hand"] == "J" }
-    winner.push(high_score)
-    break if winner.length > 0
-    high_score = players.detect { |player| player["hand"] == "10" }
-    winner.push(high_score)
-    break if winner.length > 0
-    ranking = players.sort_by { |player| player["hand"] }
-    high_score = ranking[-1]
-    winner.push(high_score)    
-end
+# high_score = players.select { |player| player[:hand][0] == "A" }
+# $winner << high_score
 
+    high_score = players.select { |player| player[:hand][0] == "A" }
+    $winner << high_score
+    if $winner.length == 0
+        high_score = players.select { |player| player[:hand][0] == "K" }
+        $winner << high_score
+    end 
+    if $winner.length == 0
+        high_score = players.select { |player| player[:hand][0] == "Q" }
+        $winner << high_score
+    end 
+    if $winner.length == 0
+        high_score = players.select { |player| player[:hand][0] == "J" }
+        $winner << high_score
+    end 
+    if $winner.length == 0
+        high_score = players.select { |player| player[:hand][0] == 10 }
+        $winner << high_score
+    end 
+    if $winner.length == 0
+        ranking = players.sort_by! { |player| player[:hand][0] }
+        high_score = ranking[-1]
+        $winner << high_score 
+    end
+       
+
+
+# ranking = players.sort_by! { |player| player[:hand] }
+
+
+
+
+
+
+
+
+puts "Ranked:"
+# puts ranking
 puts "Winner(s): "
-puts winner
+puts $winner
 
-puts "Rankings: "
-score = players.sort_by { |player| player["hand"] }
-puts score
+# puts "Rankings: "
+# score = players.sort_by! { |each| each["hand"] }
+# puts score
 
 ##### not sorting, not pushing winners
